@@ -78,6 +78,7 @@ import pika
 from SensorTemperatura import SensorTemperatura
 from SensorRitmoCardiaco import SensorRitmoCardiaco
 from SensorPresion import SensorPresion
+from MedicamentosManager import MedicamentosManager
 
 
 class SetUpSimulador:
@@ -85,6 +86,9 @@ class SetUpSimulador:
     temperatura = 0
     ritmo_cardiaco = 0
     presion = 0
+
+    def __init__(self):
+        self.medicamentos = MedicamentosManager()
 
     def main(self):
         print('+---------------------------------------------+')
@@ -113,6 +117,8 @@ class SetUpSimulador:
         print('+----------------------+----------------------+')
         print('')
         raw_input('presiona enter para continuar: ')
+        print('')
+        self.medicamentos.configure()
         print('')
         print('+---------------------------------------------+')
         print('|        CONFIGURACIÓN DE LA SIMULACIÓN       |')
