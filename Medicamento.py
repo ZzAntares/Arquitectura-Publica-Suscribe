@@ -38,3 +38,11 @@ class Medicamento:
             meds[medicine] = Medicamento(medicine, dose, timer)
 
         return meds
+
+    def add_patient(self, name):
+        """ Agrega un paciente al grupo del medicamento.
+
+        Args:
+            name (str): Nombre del paciente que recibirá el medicamento.
+        """
+        self.patients.append(name)

@@ -5,16 +5,15 @@ from Medicamento import Medicamento
 class MedicamentoTest(unittest.TestCase):
 
     def setUp(self):
-        pass
+        self.med = Medicamento('amoxicilina', '120mg', 6)
 
     def tearDown(self):
         pass
 
     def test_single_instance(self):
-        m = Medicamento('amoxicilina', '120mg', 6)
-        self.assertEqual('Amoxicilina', m.name)
-        self.assertEqual('120mg', m.dose)
-        self.assertEqual(6, m.timer)
+        self.assertEqual('Amoxicilina', self.med.name)
+        self.assertEqual('120mg', self.med.dose)
+        self.assertEqual(6, self.med.timer)
 
     def test_create_batch(self):
         meds = ['penicilina', 'amoxicilina', 'naproxeno']
@@ -30,3 +29,11 @@ class MedicamentoTest(unittest.TestCase):
             self.assertEqual(0, len(med.patients))
 
             self.assertEqual(k, med.name.lower())
+
+    def test_add_patient(self):
+        self.med.add_patient('Doyle')
+        self.assertEqual(self.med.patients, ['Doyle'])
+
+        self.med.add_patient('Jane')
+        self.assertEqual(len(self.med.patients), 2)
+        self.assertIn('Jane', self.med.patients)
