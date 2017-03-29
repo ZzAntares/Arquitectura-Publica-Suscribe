@@ -111,5 +111,36 @@ class MedicamentosManager:
 
         if print_report:
             self.print_report()
-                break
 
+    def read_medgroup(self):
+        """Solicita el nombre del medicamento a suministrar a un paciente y
+        valida que dicho medicamento exista.
+
+        Returns:
+            str: Nombre del medicamento existente a suministrar.
+        """
+        while True:
+            print(self.medtable)
+
+            group = raw_input(
+                'escribe el nombre del medicamento a suministrar al paciente: '
+            )
+
+            if group.lower() in self.meddict:
+                # He chooses a valid medicine group
+                return group.lower()
+
+            print(PrettyTable(
+                ['ERROR: Medicamento "%s" no esta en la lista!' % (group)]))
+
+            print('La selección no es válida. Intentalo de nuevo.')
+
+    def add_patient_to_medgroup(self, name):
+        """Inicia interacción para recetar medicamento a paciente.
+
+        Args:
+            name (str): Paciente al que se desea recetar un medicamento.
+        """
+        medgroup = self.read_medgroup()
+        medicament = self.meddict[medgroup]
+        medicament.add_patient(name)

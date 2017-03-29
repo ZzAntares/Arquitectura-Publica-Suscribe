@@ -156,6 +156,7 @@ class SetUpSimulador:
             print('|    SENSOR RITMO CARDIACO   |    ASIGNADO   |')
             print('+---------------------------------------------+')
             print('')
+            self.medicamentos.add_patient_to_medgroup(nombre)
             raw_input('presiona enter para continuar: ')
         print('+---------------------------------------------+')
         print('|        VALORES MÁXIMOS DE LOS EVENTOS       |')

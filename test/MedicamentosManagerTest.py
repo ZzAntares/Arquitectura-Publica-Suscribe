@@ -47,6 +47,16 @@ class MedicamentosManagerTest(unittest.TestCase):
             self.meds.input_new_medicaments()
             self.assertEqual(len(mock_create_medicament.mock_calls), 2)
 
-    def test_add_patient_to_medgroup(self):
-        self.medicamentos.add_patient_to_medgroup('Doyle')
-        pass
+    @patch.object(__builtin__, 'raw_input')
+    def test_read_medgroup_non_existent(self, mock_input):
+        mock_input.return_value = 'Paracetamol'
+        with patch('sys.stdout', new=StringIO()):
+            self.assertEqual('paracetamol', self.meds.read_medgroup())
+
+    @patch('MedicamentosManager.MedicamentosManager.read_medgroup')
+    def test_add_patient_to_medgroup(self, mock_read):
+        mock_read.return_value = 'paracetamol'
+        self.meds.add_patient_to_medgroup('Doyle')
+
+        # Doyle should appear as patient in 'paracetamol' group
+        self.assertIn('Doyle', self.meds.meddict['paracetamol'].patients)
