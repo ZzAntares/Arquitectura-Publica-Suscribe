@@ -74,10 +74,10 @@
 
 import os
 import time
-import pika
 from SensorTemperatura import SensorTemperatura
 from SensorRitmoCardiaco import SensorRitmoCardiaco
 from SensorPresion import SensorPresion
+from SensorAcelerometro import SensorAcelerometro
 from MedicamentosManager import MedicamentosManager
 
 
