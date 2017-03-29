@@ -20,10 +20,13 @@ class MedicamentoTest(unittest.TestCase):
         meds = ['penicilina', 'amoxicilina', 'naproxeno']
         medicines = Medicamento.create_batch(meds, 'Pildoras 60mg', 4)
 
-        self.assertEqual(3, len(medicines))
+        self.assertIsInstance(medicines, dict)
+        self.assertEqual(3, len(medicines.items()))
 
-        for med in medicines:
+        for k, med in medicines.items():
+            self.assertIsInstance(med, Medicamento)
             self.assertEqual(4, med.timer)
             self.assertEqual('Pildoras 60mg', med.dose)
             self.assertEqual(0, len(med.patients))
-            self.assertIsInstance(med, Medicamento)
+
+            self.assertEqual(k, med.name.lower())

@@ -2,6 +2,15 @@
 class Medicamento:
 
     def __init__(self, name, dose, timer):
+        """Constructor.
+
+        Instancía un nuevo medicamento con la información dada.
+
+        Args:
+            name (str): Nombre del medicamento.
+            dose (str): Cuanto se debe consumir del medicamento.
+            timer (int): Cantidad de horas entre cada dosis.
+        """
         self.name = name.capitalize()
         self.dose = dose
         self.timer = int(timer)
@@ -20,12 +29,12 @@ class Medicamento:
             timer (int): Numero de horas entre dósis.
 
         Returns:
-            list: Lista de objetos, cada elemento es una instancia de
-                la clase Medicamento.
+            dict: Diccionario donde la llave es el nombre del medicamento,
+                y el valor es una instancia de la clase Medicamento.
         """
-        meds = []
+        meds = {}
 
         for medicine in medicaments:
-            meds.append(Medicamento(medicine, dose, timer))
+            meds[medicine] = Medicamento(medicine, dose, timer)
 
         return meds
