@@ -8,10 +8,10 @@ class MedicamentosManager:
     def __init__(self):
         """Constructor.
 
-         Carga una lista de medicamentos predeterminada para utilizar
-         en el sistema y los almacena en una tabla.
-         """
-        medlist = Medicamento.create_batch([
+        Carga una lista de medicamentos predeterminada para utilizar
+        en el sistema y los almacena en una tabla.
+        """
+        meds = Medicamento.create_batch([
             'paracetamol',
             'ibuprofeno',
             'insulina',
@@ -28,16 +28,16 @@ class MedicamentosManager:
             'Pacientes',
         ])
 
-        for med in medlist:
+        for med in meds.values():
             medtable.add_row(
                 [med.name, med.dose, med.timer, len(med.patients)])
 
         self.medtable = medtable
-        self.medlist = medlist
+        self.meddict = meds
 
     def print_report(self):
         """Imprime un reporte de los medicamentos disponibles.
-         """
+        """
         table = PrettyTable(['CONFIGURACIÓN DE LA SIMULACIÓN'])
         table.add_row(['Grupos de medicamentos | 6'])
         print(table)
@@ -46,11 +46,11 @@ class MedicamentosManager:
     def create_medicament(self, title=None):
         """Dar de alta un nuevo medicamento de manera interactiva.
 
-         Args:
-             title (str): Título a utilizar en la tabla usada para preguntar
-                 los datos al cliente, es variable por que si se desea crear
-                 más un medicamento el titulo puede contener un contador.
-         """
+        Args:
+            title (str): Título a utilizar en la tabla usada para preguntar
+                los datos al cliente, es variable por que si se desea crear
+                más un medicamento el titulo puede contener un contador.
+        """
         if not title:
             title = 'DATOS DEL MEDICAMENTO'
 
@@ -72,7 +72,7 @@ class MedicamentosManager:
 
         # Update medicaments table
         med = Medicamento(name, dose, timer)
-        self.medlist.append(med)
+        self.meddict[name] = med
 
         self.medtable.add_row([
             med.name,
@@ -83,7 +83,7 @@ class MedicamentosManager:
 
     def input_new_medicaments(self):
         """Dar de alta multiples medicamentos de manera interactiva.
-         """
+        """
         table = PrettyTable(['CONFIGURACIÓN DE LA SIMULACIÓN'])
         table.add_row(['¿Cuántos nuevos medicamentos agregarás? | ?'])
         print(table)
@@ -95,8 +95,8 @@ class MedicamentosManager:
 
     def configure(self):
         """Inicia el proceso de configuración para el caso que se deseen
-             registrar nuevos medicamentos en el sistema.
-         """
+        registrar nuevos medicamentos en el sistema.
+        """
         print_report = False
 
         while True:
