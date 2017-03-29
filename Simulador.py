@@ -118,6 +118,8 @@ class SetUpSimulador:
         print('')
         raw_input('presiona enter para continuar: ')
         print('')
+        self.medicamentos.print_report()
+        print('')
         self.medicamentos.configure()
         print('')
         print('+---------------------------------------------+')
