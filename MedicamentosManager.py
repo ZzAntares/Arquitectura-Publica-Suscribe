@@ -144,3 +144,12 @@ class MedicamentosManager:
         medgroup = self.read_medgroup()
         medicament = self.meddict[medgroup]
         medicament.add_patient(name)
+
+    def get_meds_with_patients(self):
+        """Obtiene los grupos de medicamentos que tienen asociados pacientes.
+
+        Returns:
+            list: Lista con medicamentos donde solo aparecen aquellos
+                que tienen pacientes asociados.
+        """
+        return [med for med in self.meddict.values() if med.patients]

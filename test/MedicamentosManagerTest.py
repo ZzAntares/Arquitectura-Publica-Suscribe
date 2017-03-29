@@ -60,3 +60,13 @@ class MedicamentosManagerTest(unittest.TestCase):
 
         # Doyle should appear as patient in 'paracetamol' group
         self.assertIn('Doyle', self.meds.meddict['paracetamol'].patients)
+
+    def test_get_meds_with_patients(self):
+        self.meds.meddict['paracetamol'].add_patient('Doyle')
+        meds = self.meds.get_meds_with_patients()
+        self.assertEqual('Paracetamol', meds[0].name)
+        self.assertEqual(['Doyle'], meds[0].patients)
+
+        self.meds.meddict['ibuprofeno'].add_patient('Jane')
+        meds = self.meds.get_meds_with_patients()
+        self.assertEqual(2, len(meds))
