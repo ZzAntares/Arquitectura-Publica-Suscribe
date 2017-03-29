@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 class Medicamento:
 
-    def __init__(self, name, dose):
+    def __init__(self, name, dose, timer):
         self.name = name.capitalize()
-        self.dose = int(dose)
+        self.dose = dose
+        self.timer = int(timer)
         self.patients = []
 
     @staticmethod
-    def create_batch(medicaments, dose):
+    def create_batch(medicaments, dose, timer):
         """Crea instancias de la clase 'Medicamento' en masa.
 
         A partir de los medicamentos proporcionados en forma de lista
@@ -15,7 +16,8 @@ class Medicamento:
 
         Args:
             medicaments (list): Lista de cadenas, cada una es un medicamento.
-            dose (int): Dósis en la cual se administran los medicamentos.
+            dose (str): Dósis en la cual se administran los medicamentos.
+            timer (int): Numero de horas entre dósis.
 
         Returns:
             list: Lista de objetos, cada elemento es una instancia de
@@ -24,6 +26,6 @@ class Medicamento:
         meds = []
 
         for medicine in medicaments:
-            meds.append(Medicamento(medicine, dose))
+            meds.append(Medicamento(medicine, dose, timer))
 
         return meds
