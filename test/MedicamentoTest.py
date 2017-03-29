@@ -11,16 +11,19 @@ class MedicamentoTest(unittest.TestCase):
         pass
 
     def test_single_instance(self):
-        m = Medicamento('amoxicilina', 6)
+        m = Medicamento('amoxicilina', '120mg', 6)
         self.assertEqual('Amoxicilina', m.name)
+        self.assertEqual('120mg', m.dose)
+        self.assertEqual(6, m.timer)
 
     def test_create_batch(self):
         meds = ['penicilina', 'amoxicilina', 'naproxeno']
-        medicines = Medicamento.create_batch(meds, 4)
+        medicines = Medicamento.create_batch(meds, 'Pildoras 60mg', 4)
 
         self.assertEqual(3, len(medicines))
 
         for med in medicines:
-            self.assertEqual(4, med.dose)
+            self.assertEqual(4, med.timer)
+            self.assertEqual('Pildoras 60mg', med.dose)
             self.assertEqual(0, len(med.patients))
             self.assertIsInstance(med, Medicamento)
