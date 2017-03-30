@@ -5,9 +5,9 @@ import sys
 from Acelerometro import Acelerometro
 
 class AcelerometroManager:
-    x = 0
-    y = 0
-    z = 0
+    x = 0.0
+    y = 0.0
+    z = 0.0
     values_parameter_x = []
 
     def setUpManager(self, x, y, z):
@@ -50,9 +50,9 @@ class AcelerometroManager:
 
     def callback(self, ch, method, properties, body):
         values = body.split(':')
-        x = int(values[3])
-        y = int(values[4])
-        z = int(values[5])
+        x = float(values[3])
+        y = float(values[4])
+        z = float(values[5])
         monitor = Acelerometro()
 
         if (x >=-0.042 and x <= 0.599) and (y >= 0.690 and y <= 0.999) and (z >= 0.020 and z <= 0.783) :
