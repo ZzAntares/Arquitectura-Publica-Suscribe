@@ -55,6 +55,11 @@
 #           |    create_heart_rate    |     String: nombre       |  - Instancia la clase |
 #           |        _sensor()        |                          |    SensorRitmoCardiaco|
 #           +-------------------------+--------------------------+-----------------------+
+#           |                         |                          |  - Asigna temporizador|
+#           |    prescribe_patient()  |      String: nombre      |    a paciente que     |
+#           |                         |                          |    notifica hora de   |
+#           |                         |                          |    consumir medicina. |
+#           +-------------------------+--------------------------+-----------------------+
 #           |                         |                          |  - Ejecuta los metodos|
 #           |    run_simulator()      |           None           |    que inician a los  |
 #           |                         |                          |    subscriptores y a  |
@@ -70,7 +75,7 @@
 #           |                         |                          |    sensores.          |
 #           +-------------------------+--------------------------+-----------------------+
 #
-#--------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------
 
 import os
 import time
@@ -210,12 +215,6 @@ class SetUpSimulador:
         self.sensores.append(s)
 
     def prescribe_patient(self, nombre):
-        """Asigna temporizador al paciente que notifica
-        la prescripción del medicamento.
-
-        Args:
-            nombre (str): Nombre del paciente al cual asociar el temporizador.
-        """
         t = TemporizadorMedicamentos(nombre, self.medicamentos)
         self.sensores.append(t)
 
@@ -224,7 +223,7 @@ class SetUpSimulador:
         self.sensores.append(s)
 
     def run_simulator(self):
-        # self.start_consumers()
+        self.start_consumers()
         self.start_publishers()
 
     def start_consumers(self):
@@ -236,6 +235,8 @@ class SetUpSimulador:
             "gnome-terminal -e 'bash -c \"python PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
         os.system(
             "gnome-terminal -e 'bash -c \"python AcelerometroManager.py " + str(self.posicion) + "; sleep 5 \"'")
+        os.system(
+            "gnome-terminal -e 'bash -c \"python MedicamentosManager.py; sleep 5 \"'")
 
     def start_publishers(self):
         for x in xrange(0, 1000):
