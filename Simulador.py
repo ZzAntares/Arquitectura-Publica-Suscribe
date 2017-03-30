@@ -74,11 +74,12 @@
 
 import os
 import time
-import pika
 from SensorTemperatura import SensorTemperatura
 from SensorRitmoCardiaco import SensorRitmoCardiaco
 from SensorPresion import SensorPresion
 from SensorAcelerometro import SensorAcelerometro
+from MedicamentosManager import MedicamentosManager
+from TemporizadorMedicamentos import TemporizadorMedicamentos
 
 
 class SetUpSimulador:
@@ -89,6 +90,9 @@ class SetUpSimulador:
     x = 0.0
     y = 0.0
     z = 0.0
+
+    def __init__(self):
+        self.medicamentos = MedicamentosManager()
 
     def main(self):
         print('+---------------------------------------------+')
@@ -117,6 +121,10 @@ class SetUpSimulador:
         print('+----------------------+----------------------+')
         print('')
         raw_input('presiona enter para continuar: ')
+        print('')
+        self.medicamentos.print_report()
+        print('')
+        self.medicamentos.configure()
         print('')
         print('+---------------------------------------------+')
         print('|        CONFIGURACIÓN DE LA SIMULACIÓN       |')
@@ -155,6 +163,8 @@ class SetUpSimulador:
             self.create_posicion_sensor(nombre)
             print('|    SENSOR POSICION   |    ASIGNADO   |')
             print('+---------------------------------------------+')
+            print('')
+            self.prescribe_patient(nombre)
             print('')
             raw_input('presiona enter para continuar: ')
         print('+---------------------------------------------+')
@@ -201,12 +211,22 @@ class SetUpSimulador:
         s = SensorRitmoCardiaco(nombre)
         self.sensores.append(s)
 
+    def prescribe_patient(self, nombre):
+        """Asigna temporizador al paciente que notifica
+        la prescripción del medicamento.
+
+        Args:
+            nombre (str): Nombre del paciente al cual asociar el temporizador.
+        """
+        t = TemporizadorMedicamentos(nombre, self.medicamentos)
+        self.sensores.append(t)
+
     def create_posicion_sensor(self, nombre):
         s = SensorAcelerometro(nombre)
         self.sensores.append(s)
 
     def run_simulator(self):
-        #self.start_consumers()
+        # self.start_consumers()
         self.start_publishers()
 
     def start_consumers(self):
@@ -224,6 +244,7 @@ class SetUpSimulador:
             for s in self.sensores:
                 s.start_service()
                 time.sleep(1.0)
+
 
 if __name__ == '__main__':
     simulador = SetUpSimulador()
