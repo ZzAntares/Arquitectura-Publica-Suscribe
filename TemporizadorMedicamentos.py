@@ -3,6 +3,43 @@ import random
 import pika
 from prettytable import PrettyTable
 
+# -----------------------------------------------------------------------------
+# Archivo: TemporizadorMedicamentos.py
+# Capitulo: 3 Estilo Publica-Subscribe
+# Autor(es): Karina Chaires, Arturo Lagunas, Julio Gutiérrez
+# Version: Marzo 2017
+# Descripción:
+#
+#  Ésta clase define el rol de un publicador que envia mensajes a una cola
+#  específica.
+#  Las características de ésta clase son las siguientes:
+#
+#  Ésta clase define el rol de un subscriptor que consume los mensajes de una cola
+#  específica.
+#  Las características de ésta clase son las siguientes:
+#
+#                                       TemperaturaManager.py
+#     +-----------------------+-------------------------+------------------------+
+#     |  Nombre del elemento  |     Responsabilidad     |      Propiedades       |
+#     +-----------------------+-------------------------+------------------------+
+#     |                       |  - Recibir mensajes     |  - Se subscribe a la   |
+#     |      Subscriptor      |  - Notificar al         |    cola de 'direct     |
+#     |                       |    monitor.             |    temperature'.       |
+#     |                       |  - Filtrar valores      |  - Define un rango en  |
+#     |                       |    extremos de tempera- |    el que la tempera-  |
+#     |                       |    tura.                |    tura tiene valores  |
+#     |                       |                         |    válidos.            |
+#     |                       |                         |  - Notifica al monitor |
+#     |                       |                         |    un segundo después  |
+#     |                       |                         |    de recibir el       |
+#     |                       |                         |    mensaje.            |
+#     +-----------------------+-------------------------+------------------------+
+#
+#  En cada una de las funciones se encuentra documentado su responsabilidad,
+#  argumentos y parámetros que cada una de ellas reciben.
+#
+# -----------------------------------------------------------------------------
+
 
 class TemporizadorMedicamentos:
     id = 0

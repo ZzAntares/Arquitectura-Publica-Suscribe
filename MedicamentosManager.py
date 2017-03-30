@@ -6,6 +6,39 @@ from prettytable import PrettyTable
 from Medicamento import Medicamento
 from SignosVitales import SignosVitales
 
+# -----------------------------------------------------------------------------
+# Archivo: MedicamentosManager.py
+# Capitulo: 3 Estilo Publica-Subscribe
+# Autor(es): Karina Chaires, Arturo Lagunas, Julio Gutiérrez
+# Version: Marzo 2017
+# Descripción:
+#
+#   Ésta clase define el rol de un subscriptor que consume los mensajes de
+#   una cola específica.
+#
+#   Las características de ésta clase son las siguientes:
+#
+#                                MedicamentosManager.py
+#      +-----------------------+-------------------------+------------------------+
+#      |  Nombre del elemento  |     Responsabilidad     |      Propiedades       |
+#      +-----------------------+-------------------------+------------------------+
+#      |                       |  - Recibir mensajes     |  - Se subscribe a la   |
+#      |      Subscriptor      |  - Notificar al         |    cola de 'direct     |
+#      |                       |    monitor.             |    temporizador'       |
+#      |                       |  - Filtrar valores      |  - Define una lista    |
+#      |                       |    de medicamentos      |    de medicamentos     |
+#      |                       |    monitoreados.        |    comúnes.            |
+#      |                       |                         |  - Notifica al monitor |
+#      |                       |                         |    un segundo después  |
+#      |                       |                         |    de recibir el       |
+#      |                       |                         |    mensaje.            |
+#      +-----------------------+-------------------------+------------------------+
+#
+#  En cada una de las funciones se encuentra documentado su responsabilidad,
+#  argumentos y parámetros que cada una de ellas reciben.
+#
+# -----------------------------------------------------------------------------
+
 
 class MedicamentosManager:
 
@@ -226,7 +259,7 @@ class MedicamentosManager:
         notification = PrettyTable([str(values[2]), event, str(values[4])])
 
         if self.medicament and event != self.medicament.capitalize():
-            # No se suscribió a este medicamento (no se notifica)
+            # Como no se suscribió a este medicamento entonces no se notifica
             return
 
         monitor.print_notification(notification)

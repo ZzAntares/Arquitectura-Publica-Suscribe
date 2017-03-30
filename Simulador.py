@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#--------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------
 # Archivo: Simulador.py
 # Capitulo: 3 Estilo Publica-Subscribe
 # Autor(es): Perla Velasco & Yonathan Mtz.
@@ -123,6 +123,9 @@ class SetUpSimulador:
         print('|                      |     va del ritmo de  |')
         print('|                      |     los latidos del  |')
         print('|                      |     corazón.         |')
+        print('+----------------------+----------------------+')
+        print('|     Temporizador     |   - Hora de consumir |')
+        print('|                      |     medicamento.     |')
         print('+----------------------+----------------------+')
         print('')
         raw_input('presiona enter para continuar: ')

@@ -1,4 +1,27 @@
 # -*- coding: utf-8 -*-
+
+# -----------------------------------------------------------------------------
+# Archivo: Medicamento.py
+# Capitulo: 3 Estilo Publica-Subscribe
+# Autor(es): Karina Chaires, Arturo Lagunas, Julio Gutiérrez
+# Version: Marzo 2017
+# Descripción:
+#
+#   Ésta clase encapsula el concepto de Medicamento, gestionando
+#   los pacientes a los que se le receta dicha fórmula.
+#
+#   Las características de ésta clase son las siguientes:
+#
+#   Responsabilidades:
+#       - Añadir nuevos medicamentos de manera sencilla.
+#       - Registrar nuevos pacientes como consumidores de un medicamento.
+#
+#  En cada una de las funciones se encuentra documentado su responsabilidad,
+#  argumentos y parámetros que cada una de ellas reciben.
+#
+# -----------------------------------------------------------------------------
+
+
 class Medicamento:
 
     def __init__(self, name, dose, timer):
