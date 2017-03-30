@@ -1,5 +1,7 @@
 # Capitulo 3
 
+[![Build Status](https://travis-ci.org/ZzAntares/Arquitectura-Publica-Suscribe.svg?branch=master)](https://travis-ci.org/ZzAntares/Arquitectura-Publica-Suscribe)
+
 ## "Health Monitoring Simulator"
 
 ### Prerequisitos
@@ -27,3 +29,7 @@ Para ejecutar las pruebas integradas es necesario seguir los siguientes pasos:
 1. Abrir terminal en Ubuntu / Fedora.
 2. Ingresar a la carpeta del proyecto: `cd Estilos-De-Arquitectura-De-Software/`
 3. Ejecutar pruebas: `python -m test`
+
+Adicional se puede consultar
+en [TravisCI](https://travis-ci.org/ZzAntares/Arquitectura-Publica-Suscribe) el
+estado del build del proyecto para conocer si la versión actual pasa o nó las pruebas.
