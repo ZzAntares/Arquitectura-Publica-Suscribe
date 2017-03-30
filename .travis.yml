@@ -1,0 +1,16 @@
+language: python
+dist: trusty
+
+python:
+  - "2.7"
+
+sudo: required
+
+services:
+  - rabbitmq
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - python -m test
