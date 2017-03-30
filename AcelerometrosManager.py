@@ -4,22 +4,22 @@ import pika
 import sys
 from Acelerometro import Acelerometro
 
-
 class AcelerometroManager:
-    x = 0
-    y = 0
-    z = 0
-    status = ""
-    values_parameters = 0
+    x = 0.0
+    y = 0.0
+    z = 0.0
+    values_parameter_x = []
 
-    def setUpManager(self, max):
-        self.posicion_x = x
-        self.posicion_y = y
-        self.posicion_z = z
+    def setUpManager(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
 
     def start_consuming(self):
-        self.values_parameters = sys.argv[1]
-        self.setUpManager(self.values_parameters)
+        self.values_parameter_x = sys.argv[1]
+        self.values_parameter_y = sys.argv[2]
+        self.values_parameter_z = sys.argv[3]
+        self.setUpManager(self.values_parameter_x, self.values_parameter_y, self.values_parameter_z)
         #   +--------------------------------------------------------------------------------------+
         #   | La siguiente linea permite realizar la conexión con el servidor que aloja a RabbitMQ |
         #   +--------------------------------------------------------------------------------------+
@@ -33,13 +33,13 @@ class AcelerometroManager:
                                  type='direct')
         result = channel.queue_declare(exclusive=True)
         queue_name = result.method.queue
-        severity = 'acelerometro'
+        severity = 'posicion'
         #   +----------------------------------------------------------------------------+
         #   | La siguiente linea permite realizar la conexión con la cola que se definio |
         #   +----------------------------------------------------------------------------+
-        channel.queue_bind(exchange='direct_temperature',
+        channel.queue_bind(exchange='direct_acelerometro',
                             queue=queue_name, routing_key=severity)
-        print(' [*] Inicio de monitoreo de caidas. Presiona CTRL+C para finalizar el monitoreo')
+        print(' [*] Inicio de monitoreo de posicion del adulto mayor. Presiona CTRL+C para finalizar el monitoreo')
         #   +----------------------------------------------------------------------------------------+
         #   | La siguiente linea permite definir las acciones que se realizarán al ocurrir un método |
         #   +----------------------------------------------------------------------------------------+
@@ -50,18 +50,22 @@ class AcelerometroManager:
 
     def callback(self, ch, method, properties, body):
         values = body.split(':')
-        valorx = int(values[3])
-        valory = int(values[4])
-        valorz = int(values[5])
+        x = float(values[3])
+        y = float(values[4])
+        z = float(values[5])
         monitor = Acelerometro()
-        sufrioUnaCaida = monitor.getEvento(valorx,valory,valorz)
-        if event > int(self.temperatura_maxima):
 
-            monitor.print_notification('+----------+-----------------------+----------+')
-            monitor.print_notification('|   ' + str(values[3]) + '   |     TIENE CALENTURA   |   ' + str(values[2]) + '   |')
-            monitor.print_notification('+----------+-----------------------+----------+')
-            monitor.print_notification('')
-            monitor.print_notification('')
+        if (x >=-0.042 and x <= 0.599) and (y >= 0.690 and y <= 0.999) and (z >= 0.020 and z <= 0.783) :
+            monitor.print_notification( 'CAIDA_LATERAL_DERECHA')
+        elif (x >=-0.129 and x <= 0.536) and (y >= -0.171 and y <= 0.999) and (z >= -0.999 and z <= 0.999) :
+            monitor.print_notification( 'CAIDA_FRONTAL')
+        elif (x >=-0.236 and x <= 0.624) and (y >= -0.250 and y <= 0.999) and (z >= 0.525 and z <= 0.999) :
+            monitor.print_notification( 'CAIDA_HACIA_ATRAS')
+        elif (x >=-0.812 and x <= 0.171) and (y >= 0.080 and y <= 0.999) and (z >= -0.450 and z <= 0.999) :
+            monitor.print_notification( 'CAIDA_LATERAL_IZQUIERDA')
+        else:
+            monitor.print_notification( 'OK')
+
 
 test = AcelerometroManager()
 test.start_consuming()

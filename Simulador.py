@@ -87,6 +87,7 @@ class SetUpSimulador:
     temperatura = 0
     ritmo_cardiaco = 0
     presion = 0
+    posicion = 0
 
     def __init__(self):
         self.medicamentos = MedicamentosManager()
@@ -157,7 +158,12 @@ class SetUpSimulador:
             print('|    SENSOR RITMO CARDIACO   |    ASIGNADO   |')
             print('+---------------------------------------------+')
             print('')
+            self.create_posicion_sensor(nombre)
+            print('|    SENSOR POSICION   |    ASIGNADO   |')
+            print('+---------------------------------------------+')
+            print('')
             self.prescribe_patient(nombre)
+            print('')
             raw_input('presiona enter para continuar: ')
         print('+---------------------------------------------+')
         print('|        VALORES MÁXIMOS DE LOS EVENTOS       |')
@@ -213,6 +219,10 @@ class SetUpSimulador:
         t = TemporizadorMedicamentos(nombre, self.medicamentos)
         self.sensores.append(t)
 
+    def create_posicion_sensor(self, nombre):
+        s = SensorAcelerometro(nombre)
+        self.sensores.append(s)
+
     def run_simulator(self):
         # self.start_consumers()
         self.start_publishers()
@@ -224,6 +234,8 @@ class SetUpSimulador:
             "gnome-terminal -e 'bash -c \"python RitmoCardiacoManager.py " + str(self.ritmo_cardiaco) + "; sleep 5 \"'")
         os.system(
             "gnome-terminal -e 'bash -c \"python PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
+        os.system(
+            "gnome-terminal -e 'bash -c \"python AcelerometroManager.py " + str(self.posicion) + "; sleep 5 \"'")
 
     def start_publishers(self):
         for x in xrange(0, 1000):
