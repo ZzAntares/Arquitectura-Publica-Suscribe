@@ -60,6 +60,11 @@ class MedicamentosManagerTest(unittest.TestCase):
 
         # Doyle should appear as patient in 'paracetamol' group
         self.assertIn('Doyle', self.meds.meddict['paracetamol'].patients)
+        self.assertIn('Doyle', self.meds.patients)
+        self.assertEqual(
+            self.meds.patients['Doyle'],
+            self.meds.meddict['paracetamol']
+        )
 
     def test_get_meds_with_patients(self):
         self.meds.meddict['paracetamol'].add_patient('Doyle')
@@ -70,3 +75,13 @@ class MedicamentosManagerTest(unittest.TestCase):
         self.meds.meddict['ibuprofeno'].add_patient('Jane')
         meds = self.meds.get_meds_with_patients()
         self.assertEqual(2, len(meds))
+
+    @patch('MedicamentosManager.MedicamentosManager.read_medgroup')
+    def test_get_med_for_patient(self, mock_read):
+        mock_read.return_value = 'ibuprofeno'
+        self.meds.add_patient_to_medgroup('Doyle')
+
+        self.assertEqual(
+            'Ibuprofeno',
+            self.meds.get_med_for_patient('Doyle').name
+        )

@@ -34,6 +34,7 @@ class MedicamentosManager:
 
         self.medtable = medtable
         self.meddict = meds
+        self.patients = {}
 
     def print_report(self):
         """Imprime un reporte de los medicamentos disponibles.
@@ -141,9 +142,13 @@ class MedicamentosManager:
         Args:
             name (str): Paciente al que se desea recetar un medicamento.
         """
+        # Relate patient to med
         medgroup = self.read_medgroup()
         medicament = self.meddict[medgroup]
         medicament.add_patient(name)
+
+        # Relate med to patient
+        self.patients[name.capitalize()] = medicament
 
     def get_meds_with_patients(self):
         """Obtiene los grupos de medicamentos que tienen asociados pacientes.
@@ -153,3 +158,14 @@ class MedicamentosManager:
                 que tienen pacientes asociados.
         """
         return [med for med in self.meddict.values() if med.patients]
+
+    def get_med_for_patient(self, name):
+        """A partir de un paciente obtiene el medicamento que consume.
+
+        Args:
+            name (str): Nombre del paciente al cual obtener su medicamento.
+
+        Returns:
+            object: Instancia de Medicamento que corresponde a su medicamento.
+        """
+        return self.patients[name.capitalize()]
