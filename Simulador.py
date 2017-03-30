@@ -86,7 +86,9 @@ class SetUpSimulador:
     temperatura = 0
     ritmo_cardiaco = 0
     presion = 0
-    posicion = 0
+    x = 0.0
+    y = 0.0
+    z = 0.0
 
     def main(self):
         print('+---------------------------------------------+')
@@ -215,7 +217,7 @@ class SetUpSimulador:
         os.system(
             "gnome-terminal -e 'bash -c \"python PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python AcelerometroManager.py " + str(self.posicion) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python AcelerometrosManager.py " + str(self.x) +  str(self.y) +  str(self.z) + "; sleep 5 \"'")
 
     def start_publishers(self):
         for x in xrange(0, 1000):
