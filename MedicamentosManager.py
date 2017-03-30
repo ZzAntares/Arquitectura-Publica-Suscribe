@@ -1,6 +1,10 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
+import pika
 from prettytable import PrettyTable
 from Medicamento import Medicamento
+from SignosVitales import SignosVitales
 
 
 class MedicamentosManager:
@@ -169,3 +173,65 @@ class MedicamentosManager:
             object: Instancia de Medicamento que corresponde a su medicamento.
         """
         return self.patients[name.capitalize()]
+
+    def setUpManager(self, medicament):
+        """Configura el medicamento que se desea monitorear.
+        """
+        self.medicament = medicament
+
+    def start_consuming(self):
+        """Inicia el servicio que consume las notificaciones
+        de prescripción de medicamentos.
+        """
+        self.values_parameters = sys.argv[1] if len(sys.argv) > 1 else None
+        self.setUpManager(self.values_parameters)
+        # +--------------------------------------------------------------------------------------+
+        # | La siguiente linea permite realizar la conexión con el servidor que aloja a RabbitMQ |
+        # +--------------------------------------------------------------------------------------+
+        connection = pika.BlockingConnection(pika.ConnectionParameters(
+            host='localhost'))
+        channel = connection.channel()
+        # +----------------------------------------------------------------------------------------+
+        # | La siguiente linea permite definir el tipo de intercambio y de que cola recibirá datos |
+        # +----------------------------------------------------------------------------------------+
+        channel.exchange_declare(exchange='direct_temporizador',
+                                 type='direct')
+        result = channel.queue_declare(exclusive=True)
+        queue_name = result.method.queue
+        severity = 'temporizador'
+        # +----------------------------------------------------------------------------+
+        # | La siguiente linea permite realizar la conexión con la cola que se definió |
+        # +----------------------------------------------------------------------------+
+        channel.queue_bind(exchange='direct_temporizador',
+                            queue=queue_name, routing_key=severity)
+        print(' [*] Inicio de monitoreo de temporizador. Presiona CTRL+C para finalizar el monitoreo')
+        # +----------------------------------------------------------------------------------------+
+        # | La siguiente linea permite definir las acciones que se realizarán al ocurrir un método |
+        # +----------------------------------------------------------------------------------------+
+        channel.basic_consume(self.callback,
+                              queue=queue_name,
+                              no_ack=True)
+        channel.start_consuming()
+
+    def callback(self, ch, method, properties, body):
+        """Envía al monitor las notificaciones recibidas.
+
+        Si al ejecutar el manager se especificó un medicamento entonces el
+        monitor solo recibirá notificaciones para dicho medicamento (grupo).
+        """
+        values = body.split(':')
+        event = str(values[3]).capitalize()
+
+        monitor = SignosVitales()
+        notification = PrettyTable([str(values[2]), event, str(values[4])])
+
+        if self.medicament and event != self.medicament.capitalize():
+            # No se suscribió a este medicamento (no se notifica)
+            return
+
+        monitor.print_notification(notification)
+
+
+if __name__ == '__main__':
+    test = MedicamentosManager()
+    test.start_consuming()
