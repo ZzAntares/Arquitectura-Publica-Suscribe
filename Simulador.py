@@ -79,6 +79,7 @@ from SensorRitmoCardiaco import SensorRitmoCardiaco
 from SensorPresion import SensorPresion
 from SensorAcelerometro import SensorAcelerometro
 from MedicamentosManager import MedicamentosManager
+from TemporizadorMedicamentos import TemporizadorMedicamentos
 
 
 class SetUpSimulador:
@@ -156,7 +157,7 @@ class SetUpSimulador:
             print('|    SENSOR RITMO CARDIACO   |    ASIGNADO   |')
             print('+---------------------------------------------+')
             print('')
-            self.medicamentos.add_patient_to_medgroup(nombre)
+            self.prescribe_patient(nombre)
             raw_input('presiona enter para continuar: ')
         print('+---------------------------------------------+')
         print('|        VALORES MÁXIMOS DE LOS EVENTOS       |')
@@ -202,8 +203,18 @@ class SetUpSimulador:
         s = SensorRitmoCardiaco(nombre)
         self.sensores.append(s)
 
+    def prescribe_patient(self, nombre):
+        """Asigna temporizador al paciente que notifica
+        la prescripción del medicamento.
+
+        Args:
+            nombre (str): Nombre del paciente al cual asociar el temporizador.
+        """
+        t = TemporizadorMedicamentos(nombre, self.medicamentos)
+        self.sensores.append(t)
+
     def run_simulator(self):
-        #self.start_consumers()
+        # self.start_consumers()
         self.start_publishers()
 
     def start_consumers(self):
@@ -219,6 +230,7 @@ class SetUpSimulador:
             for s in self.sensores:
                 s.start_service()
                 time.sleep(1.0)
+
 
 if __name__ == '__main__':
     simulador = SetUpSimulador()
