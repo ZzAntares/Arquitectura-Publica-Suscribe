@@ -55,6 +55,9 @@
 #           |    create_heart_rate    |     String: nombre       |  - Instancia la clase |
 #           |        _sensor()        |                          |    SensorRitmoCardiaco|
 #           +-------------------------+--------------------------+-----------------------+
+#           |    create_posicion      |     String: nombre       |  - Instancia la clase |
+#           |        _sensor()        |                          |    SensorAcelerometro |
+#           +-------------------------+--------------------------+-----------------------+
 #           |                         |                          |  - Asigna temporizador|
 #           |    prescribe_patient()  |      String: nombre      |    a paciente que     |
 #           |                         |                          |    notifica hora de   |
@@ -127,6 +130,8 @@ class SetUpSimulador:
         print('|     Temporizador     |   - Hora de consumir |')
         print('|                      |     medicamento.     |')
         print('+----------------------+----------------------+')
+        print('|     Acelerómetro     |   - Detectar caídas.  |')
+        print('+----------------------+----------------------+')
         print('')
         raw_input('presiona enter para continuar: ')
         print('')
@@ -169,7 +174,7 @@ class SetUpSimulador:
             print('+---------------------------------------------+')
             print('')
             self.create_posicion_sensor(nombre)
-            print('|    SENSOR POSICION   |    ASIGNADO   |')
+            print('|    SENSOR ACELEROMETRO   |    ASIGNADO   |')
             print('+---------------------------------------------+')
             print('')
             self.prescribe_patient(nombre)
